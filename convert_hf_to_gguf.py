@@ -215,6 +215,7 @@ class Model:
 
     def set_gguf_parameters(self):
         self.gguf_writer.add_block_count(self.block_count)
+        self.gguf_writer.add_vocab_size(self.hparams["vocab_size"])
 
         if (n_ctx := self.find_hparam(["max_position_embeddings", "n_ctx"], optional=True)) is not None:
             self.gguf_writer.add_context_length(n_ctx)
@@ -509,7 +510,8 @@ class Model:
 
         from transformers import AutoTokenizer
         tokenizer = AutoTokenizer.from_pretrained(self.dir_model)
-        vocab_size = self.hparams.get("vocab_size", len(tokenizer.vocab))
+        # vocab_size = self.hparams.get("vocab_size", len(tokenizer.vocab))
+        vocab_size = len(tokenizer.vocab)
         assert max(tokenizer.vocab.values()) < vocab_size
 
         tokpre = self.get_vocab_base_pre(tokenizer)

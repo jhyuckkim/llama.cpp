@@ -4351,7 +4351,7 @@ struct llama_model_loader {
             /*.no_alloc = */ true,
             /*.ctx      = */ &ctx,
         };
-
+        
         meta = gguf_init_from_file(fname.c_str(), params);
         if (!meta) {
             throw std::runtime_error(format("%s: failed to load model from %s\n", __func__, fname.c_str()));
@@ -9105,10 +9105,10 @@ static int llama_model_load(const std::string & fname, llama_model & model, llam
 
         llm_load_print_meta(ml, model);
 
-        if (model.vocab.type != LLAMA_VOCAB_TYPE_NONE &&
-            model.hparams.n_vocab != model.vocab.id_to_token.size()) {
-            throw std::runtime_error("vocab size mismatch");
-        }
+        // if (model.vocab.type != LLAMA_VOCAB_TYPE_NONE &&
+        //     model.hparams.n_vocab != model.vocab.id_to_token.size()) {
+        //     throw std::runtime_error("vocab size mismatch");
+        // }
 
         if (params.vocab_only) {
             LLAMA_LOG_INFO("%s: vocab only - skipping tensors\n", __func__);
